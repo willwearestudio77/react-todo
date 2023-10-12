@@ -1,8 +1,9 @@
 import React from 'react'
+import TodosList from '../components/TodosList'
 
 function TodoList() {
   return (
-    <div>List</div>
+    <TodosList/>
   )
 }
 
