@@ -27,7 +27,7 @@ function App() {
         <Route path="/" element={<PageLayout />}>
           <Route index element={<TodoList />} />
           <Route path="/add" element={<Add />} />
-          <Route path="/update/:id" element={<Update />} />
+          <Route path="/update" element={<Update />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
