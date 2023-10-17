@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext,useEffect } from 'react'
 import { IconButton, ListItem,List,ListItemText } from '@mui/material'
 
 
@@ -6,30 +6,29 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import CheckIcon from '@mui/icons-material/Check';
 
 
-function TodosList({
-    todos =['build an app','play a game of mtg','watch the football'],
-    deleteHandler = () => console.log('no delete handler added to todo list'),
-    checkHandler = () => console.log('no check handler added to todo list')
+function TodosList() {
+    
 
-}) {
+    
     return (
         <List>
-            {todos.map((name,key)=>(
-                <ListItem key={key}>
+            
+                <ListItem >
                 <ListItemText
-                    primary={name}
+                    primary='list item'
+                    
                 />
-                <IconButton edge="end" aria-label="delete" onClick={()=>deleteHandler(key)}>
+                <IconButton edge="end" aria-label="delete">
                     <DeleteIcon/>
                     </IconButton>
-                    <IconButton edge="end" aria-label="delete" onClick={()=>checkHandler(key)}>
+                    <IconButton edge="end" aria-label="delete">
                     <CheckIcon/>
                     </IconButton>
 
                 
             </ListItem>
 
-            ))}
+          
             
         </List>
     )

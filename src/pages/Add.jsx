@@ -1,8 +1,14 @@
-import React from 'react'
+import React,{useContext} from 'react'
+import TodoForm from '../forms/TodoForm'
+
 
 function Add() {
+  
   return (
-    <div>Add</div>
+    <div>Add
+      <TodoForm submitHandler={addTodo}/>
+    </div>
+    
   )
 }
 
