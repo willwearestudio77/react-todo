@@ -4,4 +4,26 @@
   padding: 2rem;
   text-align: center;
 }
+.MuiContainer-root{
+  min-width:70vw;
+}
+.MuiListItem-root.Work{
+  background-color:#ABDEE6;
+}
+.MuiListItem-root.Family{
+  background-color:#FFCCB6;
+}
+.MuiListItem-root.Play{
+  background-color:#CBAACB;
+}
+.MuiListItem-root.Excercise{
+  background-color:#FFFFB5;
+}
+.MuiListItem-root{
+  border-radius:10px;
+  margin-bottom:10px;
+}
+.MuiListItem-root{
+  gap:10px
+}
 

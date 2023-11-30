@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { TodosContext } from "../contexts/TodoContext";
+import { nanoid } from "nanoid";
 import { useForm, Controller } from "react-hook-form";
 // import CircularProgress from "@mui/material/CircularProgress";
 import * as yup from "yup";
@@ -23,6 +24,7 @@ export default function TodoForm({ todo, submitHandler }) {
   const [duration, setDuration] = useState('')
   const [typeOfTodo,setTypeOfTodo] = useState('')
   const { addTodo, todos } = useContext(TodosContext)
+  const id = nanoid()
   // const {
   //   handleSubmit,
   //   formState: { errors, isValid, isDirty, isSubmitting },
@@ -59,7 +61,7 @@ export default function TodoForm({ todo, submitHandler }) {
   }
   function mySubmitHandler(event) {
     event.preventDefault()
-    addTodo({ title, duration,typeOfTodo })
+    addTodo({ id,title, duration,typeOfTodo })
     console.log(todos)
   }
   return (

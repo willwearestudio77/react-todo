@@ -18,7 +18,7 @@ function TodosList() {
         <List>
             {todos.map(({ id, title, duration, typeOfTodo }) => {
                 let type;
-                
+                let colorList;
 
                 switch (typeOfTodo) {
                     case 'Family':

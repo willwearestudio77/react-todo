@@ -1,13 +1,15 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
 import { URLKEY } from "../apis/todos";
-import { nanoid } from "nanoid";
+
 
 
 export const TodosContext = createContext({
   todos: [],
+  completedTodos:[],
   addTodo: () => {},
   deleteTodo:()=>{},
-  fetchTodo:()=>{}
+  fetchTodo:()=>{},
+  completeTodo:()=>{}
 });
 
 
@@ -15,19 +17,41 @@ export const TodosContext = createContext({
 
 
 export const TodosProvider = ({ children }) => {
-  const [todos,setTodos] = useState([])
-
-
-
- const addTodo = useCallback(({title,duration,typeOfTodo}) =>{
-  setTodos([...todos,{nanoid,title,duration,typeOfTodo}])
- })
-
+  const [todos, setTodos] = useState(() => {
+    const storedTodos = localStorage.getItem("todos");
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
+  const [completedTodos, setCompletedTodos] = useState(() => {
+    const storedCompletedTodos = localStorage.getItem("completedTodos");
+    return storedCompletedTodos ? JSON.parse(storedCompletedTodos) : [];
+  });
   
 
-  const deleteTodo = useCallback((nanoid) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo._id !== nanoid));
+
+
+ const addTodo = useCallback(({id,title,duration,typeOfTodo}) =>{
+  let finished = false;
+  setTodos([...todos,{id,title,duration,typeOfTodo,finished}])
+ })
+ 
+ const finishTodo = useCallback(({id})=>{
+  finished = true;
+  setTodos([...todos,{nanoid,title,duration,typeOfTodo,finished}])
+ })
+  
+
+  const deleteTodo = useCallback((id) => {
+    console.log(id)
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
   }, [setTodos]);
+
+  const completeTodo = useCallback((id, title, duration, typeOfTodo) => {
+    setCompletedTodos((prevCompletedTodos) => [
+        ...prevCompletedTodos,
+        { id, title, duration, typeOfTodo }
+    ]);
+    
+}, [deleteTodo, setCompletedTodos]);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -35,7 +59,7 @@ export const TodosProvider = ({ children }) => {
 
 
   return (
-    <TodosContext.Provider value={{ addTodo,deleteTodo, todos }}>
+    <TodosContext.Provider value={{ addTodo,deleteTodo, todos,completeTodo,completedTodos }}>
       {children}
     </TodosContext.Provider>
   );

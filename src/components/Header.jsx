@@ -29,7 +29,7 @@ function DrawerAppBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography component={NavLink} to="/" variant="h6" sx={{ my: 2 }}>
+      <Typography  component={NavLink} to="/" variant="h4" sx={{ my: 2 }}>
         ToDos
       </Typography>
       <Divider />
@@ -80,7 +80,9 @@ function DrawerAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography
-            variant="h6"
+          className="header-heading"
+            variant="h2"
+            color="white"
             component={NavLink}
             to='/'
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
