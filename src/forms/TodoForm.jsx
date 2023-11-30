@@ -1,94 +1,94 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState ,useContext} from "react";
+import { TodosContext } from "../contexts/TodoContext";
 import { useForm, Controller } from "react-hook-form";
 // import CircularProgress from "@mui/material/CircularProgress";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button } from "@mui/material";
 
-const schema =yup
-.object()
-.shape({
-    title:yup.string().required(),
-    duration:yup.number().integer().positive().required()
-})
-.required();
+const schema = yup
+  .object()
+  .shape({
+    title: yup.string().required(),
+  })
+  .required();
 
 const defaults = {
-    title:"",
-    duration:""
+  title: "",
 }
 
-export default function TodoForm({todo,submitHandler}){
-    const{
-        handleSubmit,
-        formState:{errors,isValid,isDirty,isSubmitting},
-        reset,
-        control,
-        formState,} = useForm({
-            resolver:yupResolver(schema),
-            mode:"onChange",
-            defaultValues: todo || defaults,
-        })
-        useEffect(()=>{
-            console.log(formState)
-        })
-        useEffect(()=>{
-            if(todo){
-                reset(todo)
-            }
-        },[todo,reset])
-        const formRowStyle = {
-            marginBlockEnd:'1em'
-        }
-        let submitFn = (vals) => {
-            reset();
-            todo ? submitHandler(todo.id,vals) : submitHandler(vals);
-        }
-        return(
-            <form onSubmit={handleSubmit(submitFn)}>
-                <div style={formRowStyle}>
-                    <Controller
-                    control = {control}
-                    name = "title"
-                    defaultValue={""}
-                    render = {({field}) => (
-                        <TextField
-                        type="name"
-                        {...field}
-                        label="title"
-                        fullWidth
-                        error={!!errors.name}
-                        helperText={errors.name?.message}
-                        />
-
-                    )}
-                    />
-                </div>
-                <div style={formRowStyle}>
-        <Controller
-          control={control}
-          name="duration"
-          defaultValue={""}
-          render={({ field }) => (
-            <TextField
-              type="number"
-              fullWidth
-              error={!!errors.duration}
-              {...field}
-              label="duration"
-              pattern={/[0-9]{1,4}/}
-              helperText={errors.duration?.message}
-            />
-          )}
+export default function TodoForm({ todo, submitHandler }) {
+  const [title,setTitle] = useState('')
+  const [duration,setDuration] = useState('')
+  const {addTodo,todos} = useContext(TodosContext)
+  // const {
+  //   handleSubmit,
+  //   formState: { errors, isValid, isDirty, isSubmitting },
+  //   reset,
+  //   control,
+  //   formState, } = useForm({
+  //     resolver: yupResolver(schema),
+  //     mode: "onChange",
+  //     defaultValues: todo || defaults,
+  //   })
+  // useEffect(() => {
+  //   console.log(formState)
+  // })
+  // useEffect(() => {
+  //   if (todo) {
+  //     reset(todo)
+  //   }
+  // }, [todo, reset])
+  const formRowStyle = {
+    marginBlockEnd: '1em'
+  }
+  let submitFn = (vals) => {
+    // reset();
+    todo ? submitHandler(todo.id, vals) : submitHandler(vals);
+  }
+  function titleChangeHandler(event){
+    setTitle(event.target.value)
+  }
+  function durationChangeHandler(event){
+    setDuration(event.target.value)
+  }
+  function mySubmitHandler(event){
+    event.preventDefault()
+    addTodo({title,duration})
+    console.log(todos)
+  }
+  return (
+    <form onSubmit={mySubmitHandler} >
+      {/* <form onSubmit={handleSubmit(mySubmitHandler)}> */}
+      <div style={formRowStyle}>
+        <TextField
+          value={title}
+          onChange={titleChangeHandler}
+          // {...field}
+          label="title"
+          fullWidth
+          // error={!!errors.name}
+          // helperText={errors.name?.message}
         />
+        <TextField
+          value={duration}
+          onChange={durationChangeHandler}
+          // {...field}
+          label="title"
+          fullWidth
+          // error={!!errors.name}
+          // helperText={errors.name?.message}
+        />
+      </div>
+      <div style={formRowStyle}>
       </div>
       <div style={{ marginTop: 20 }}>
         <Button
           type="reset"
-          onClick={() => reset()}
+          // onClick={() => reset()}
           variant="contained"
           sx={{ mr: 2 }}
-          disabled={!isDirty}
+          // disabled={!isDirty}
         >
           Reset
         </Button>
@@ -96,13 +96,13 @@ export default function TodoForm({todo,submitHandler}){
           type="submit"
           primary="true"
           variant="contained"
-          disabled={isSubmitting || !isDirty || (isDirty && !isValid)}
+          // disabled={isSubmitting || !isDirty || (isDirty && !isValid)}
         >
           Submit
         </Button>
       </div>
 
-            </form>
-        );
-    
+    </form>
+  );
+
 }

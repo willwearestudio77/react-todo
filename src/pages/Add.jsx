@@ -4,9 +4,10 @@ import TodoForm from '../forms/TodoForm'
 
 function Add() {
   
+  
   return (
     <div>Add
-      <TodoForm submitHandler={addTodo}/>
+      <TodoForm />
     </div>
     
   )

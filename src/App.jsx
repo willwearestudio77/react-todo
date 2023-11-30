@@ -15,6 +15,7 @@ import Update from "./pages/Update";
 import NotFound from './pages/NotFound'
 import { CssBaseline } from "@mui/material";
 import theme from './themes/theme'
+import { TodosProvider } from "./contexts/TodoContext";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <Router>
       <CssBaseline/>
       <ThemeProvider theme={theme}>
+        <TodosProvider>
       <Routes>
         <Route path="/" element={<PageLayout />}>
           <Route index element={<TodoList />} />
@@ -31,6 +33,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      </TodosProvider>
       </ThemeProvider>
     </Router>
     </>
