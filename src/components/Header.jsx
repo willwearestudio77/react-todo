@@ -17,7 +17,7 @@ import Button from '@mui/material/Button';
 import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+
 
 function DrawerAppBar(props) {
   const { window } = props;
@@ -81,7 +81,8 @@ function DrawerAppBar(props) {
           </IconButton>
           <Typography
             variant="h6"
-            component="div"
+            component={NavLink}
+            to='/'
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
             Todos

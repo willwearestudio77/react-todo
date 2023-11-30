@@ -1,10 +1,11 @@
-import React, { useEffect,useState ,useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { TodosContext } from "../contexts/TodoContext";
 import { useForm, Controller } from "react-hook-form";
 // import CircularProgress from "@mui/material/CircularProgress";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextField, Button } from "@mui/material";
+import{InputLabel,Select,MenuItem} from "@mui/material"
 
 const schema = yup
   .object()
@@ -18,9 +19,10 @@ const defaults = {
 }
 
 export default function TodoForm({ todo, submitHandler }) {
-  const [title,setTitle] = useState('')
-  const [duration,setDuration] = useState('')
-  const {addTodo,todos} = useContext(TodosContext)
+  const [title, setTitle] = useState('')
+  const [duration, setDuration] = useState('')
+  const [typeOfTodo,setTypeOfTodo] = useState('')
+  const { addTodo, todos } = useContext(TodosContext)
   // const {
   //   handleSubmit,
   //   formState: { errors, isValid, isDirty, isSubmitting },
@@ -46,20 +48,22 @@ export default function TodoForm({ todo, submitHandler }) {
     // reset();
     todo ? submitHandler(todo.id, vals) : submitHandler(vals);
   }
-  function titleChangeHandler(event){
+  function titleChangeHandler(event) {
     setTitle(event.target.value)
   }
-  function durationChangeHandler(event){
+  function durationChangeHandler(event) {
     setDuration(event.target.value)
   }
-  function mySubmitHandler(event){
+  function typeChangeHandler(event) {
+    setTypeOfTodo(event.target.value)
+  }
+  function mySubmitHandler(event) {
     event.preventDefault()
-    addTodo({title,duration})
+    addTodo({ title, duration,typeOfTodo })
     console.log(todos)
   }
   return (
     <form onSubmit={mySubmitHandler} >
-      {/* <form onSubmit={handleSubmit(mySubmitHandler)}> */}
       <div style={formRowStyle}>
         <TextField
           value={title}
@@ -67,18 +71,31 @@ export default function TodoForm({ todo, submitHandler }) {
           // {...field}
           label="title"
           fullWidth
-          // error={!!errors.name}
-          // helperText={errors.name?.message}
+        // error={!!errors.name}
+        // helperText={errors.name?.message}
         />
-        <TextField
+         <TextField
           value={duration}
           onChange={durationChangeHandler}
           // {...field}
-          label="title"
+          label="duration"
           fullWidth
-          // error={!!errors.name}
-          // helperText={errors.name?.message}
-        />
+        // error={!!errors.name}
+        // helperText={errors.name?.message}
+        /> 
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="todo-type"
+          id="demo-simple-select"
+          value={typeOfTodo}
+          label="Type"
+          onChange={typeChangeHandler}
+        >
+          <MenuItem value={'Family'}>Family</MenuItem>
+          <MenuItem value={"Excercise"}>Excercise</MenuItem>
+          <MenuItem value={"Work"}>Work</MenuItem>
+          <MenuItem value={"Play"}>Play</MenuItem>
+        </Select>
       </div>
       <div style={formRowStyle}>
       </div>
@@ -88,7 +105,7 @@ export default function TodoForm({ todo, submitHandler }) {
           // onClick={() => reset()}
           variant="contained"
           sx={{ mr: 2 }}
-          // disabled={!isDirty}
+        // disabled={!isDirty}
         >
           Reset
         </Button>
@@ -96,7 +113,7 @@ export default function TodoForm({ todo, submitHandler }) {
           type="submit"
           primary="true"
           variant="contained"
-          // disabled={isSubmitting || !isDirty || (isDirty && !isValid)}
+        // disabled={isSubmitting || !isDirty || (isDirty && !isValid)}
         >
           Submit
         </Button>

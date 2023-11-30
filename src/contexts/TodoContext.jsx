@@ -1,13 +1,13 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
 import { URLKEY } from "../apis/todos";
 import { nanoid } from "nanoid";
-import { useQuery } from "@tanstack/react-query";
-const ENDPOINT = 'https://api-eu-west-2.hygraph.com/v2/clox69uve06ya01uo50mgh04i/master'
+
 
 export const TodosContext = createContext({
   todos: [],
   addTodo: () => {},
-  deleteTodo:()=>{}
+  deleteTodo:()=>{},
+  fetchTodo:()=>{}
 });
 
 
@@ -15,22 +15,18 @@ export const TodosContext = createContext({
 
 
 export const TodosProvider = ({ children }) => {
+  const [todos,setTodos] = useState([])
+
+
+
+ const addTodo = useCallback(({title,duration,typeOfTodo}) =>{
+  setTodos([...todos,{nanoid,title,duration,typeOfTodo}])
+ })
+
   
 
-
-
-  const [todos, setTodos] = useState(() => {
-    const storedTodos = localStorage.getItem("todos");
-    return storedTodos ? JSON.parse(storedTodos) : [];
-  });
-
-  const addTodo = useCallback(({ title, duration }) => {
-    const newTodo = { title, duration ,_id:nanoid()};
-    setTodos([...todos, newTodo]);
-  }, [todos, setTodos]);
-
-  const deleteTodo = useCallback((id) => {
-    setTodos(prevTodos => prevTodos.filter(todo => todo._id !== id));
+  const deleteTodo = useCallback((nanoid) => {
+    setTodos(prevTodos => prevTodos.filter(todo => todo._id !== nanoid));
   }, [setTodos]);
 
   useEffect(() => {
